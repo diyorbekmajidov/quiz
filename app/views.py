@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-# from rest_framework import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework import status
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication
@@ -26,3 +26,31 @@ class Quiz(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+class Question(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self ,request:Request):
+        serializer = Questionserializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+class Option(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request:Request):
+        serializer = Optionserializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
+
+class Reslut(APIView):
+    permission_classes = [IsAuthenticated]
+    
