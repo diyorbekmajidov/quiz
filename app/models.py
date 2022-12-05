@@ -3,13 +3,18 @@ from django.db import models
 # Create your models here.
 class Quiz(models.Model):
     title=models.CharField(max_length=255)
-
     def __str__(self):
         return self.title
 
+class Topik(models.Model):
+    quiz=models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    t_name=models.CharField(max_length=26)
+    def __str__(self):
+        return self.t_name
+
 class Question(models.Model):
     question=models.CharField(max_length=255)
-    title=models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    t_name=models.ForeignKey(Topik, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.question
