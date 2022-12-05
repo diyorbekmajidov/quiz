@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Question,Quiz,User,Result,Result_detail,Option
+from .models import Question,Quiz,User,Result,Result_detail,Option,Topik
 
 admin.site.register(Quiz)
+admin.site.register(Topik)
 admin.site.register(Question)
 admin.site.register(User)
 admin.site.register(Result)
