@@ -8,13 +8,16 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication
 
-from .models import Question,Quiz,Option,Result,Result_detail,User
-from .serializers import Questionserializer,Quizserializer,Optionserializer
+from .models import Question,Quiz1,Option,Result,Result_detail,User,Topic
+from .serializers import Questionserializer,Quizserializer,Optionserializer,Topicserializers
 
 class Quiz(APIView):
     permission_classes = [IsAuthenticated]
-    # quiz=Quiz.objects.all()
-    # serializer=Quizserializer(quiz,many=True)
+    def get(slef, request: Request):
+        quiz=Quiz1.objects.all()
+        serializer=Quizserializer(quiz, many=True)
+        return Response(serializer.data)
+    
     def post(self, request: Request):
         """ 
         Create a new quiz
@@ -26,6 +29,12 @@ class Quiz(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+class Topic(APIView):
+    def get(self, request:Request, pk):
+        topik=Topic.objects.all(id=pk)
+        serializer = Topicserializers(topik, many=True)
+        return Response(serializer.data)
 
 class Question(APIView):
     permission_classes = [IsAuthenticated]
@@ -51,6 +60,6 @@ class Option(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_204_NO_CONTENT)
 
-class Reslut(APIView):
-    permission_classes = [IsAuthenticated]
+# class Reslut(APIView):
+#     permission_classes = [IsAuthenticated]
     
